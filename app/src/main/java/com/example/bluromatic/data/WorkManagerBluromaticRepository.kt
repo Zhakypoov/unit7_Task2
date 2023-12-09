@@ -20,6 +20,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asFlow
+import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -61,6 +62,9 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
                 OneTimeWorkRequest.from(CleanupWorker::class.java)
             )
 
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
 
         // Add WorkRequest to blur the image
         val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
